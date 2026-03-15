@@ -1,293 +1,392 @@
 {% extends "base.html" %}
-{% block title %}VipherAid — Report • Save • Rescue{% endblock %}
+{% block title %}VipherAid | Save Animal Lives{% endblock %}
 
 {% block content %}
 
-<!-- ══ HERO ══ -->
-<section style="padding:72px 0 52px;overflow:hidden;position:relative;">
-  <div style="position:absolute;top:-80px;right:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,0.13) 0%,transparent 68%);pointer-events:none;"></div>
-  <div style="position:absolute;bottom:-60px;left:-80px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(13,148,136,0.10) 0%,transparent 68%);pointer-events:none;"></div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <div class="container">
-    <div class="row align-items-center g-5">
+<section class="hero">
 
-      <!-- LEFT copy -->
-      <div class="col-lg-6 animate-up">
-        <div class="section-label">Animal Emergency Network</div>
-        <h1 style="font-family:'Syne',sans-serif;font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;line-height:1.07;letter-spacing:-0.03em;margin-bottom:20px;">
-          Every second counts.<br>
-          <span style="background:var(--grad-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Save an animal now.</span>
-        </h1>
-        <p style="font-size:1.08rem;color:var(--muted);line-height:1.76;max-width:480px;margin-bottom:30px;">
-          VipherAid connects citizens with rescue NGOs in real-time — voice-enabled, GPS-routed, instant call reporting. File any animal emergency in under 60 seconds.
-        </p>
+<div class="hero-container">
 
-        <div class="d-flex flex-wrap gap-2 mb-8" style="margin-bottom:26px;">
-          <span class="tech-pill amber">📞 Emergency Call</span>
-          <span class="tech-pill teal">📍 Precision GPS</span>
-          <span class="tech-pill green">⚡ Real-time Dashboard</span>
-          <span class="tech-pill">🏥 Shelter Network</span>
-        </div>
+<div class="hero-left">
 
-        <!-- EMERGENCY CTA -->
-        <div class="d-flex flex-wrap gap-3 align-items-center">
-          <a href="/emergency" class="va-btn-emergency" style="font-size:1.05rem;padding:16px 32px;border-radius:16px;text-decoration:none;">
-            <span style="font-size:1.4rem;animation:float 2s infinite ease-in-out;display:inline-block;">📞</span>
-            <div>
-              <div style="font-size:0.7rem;opacity:0.85;letter-spacing:0.06em;text-transform:uppercase;">Tap to connect</div>
-              <div style="font-weight:900;">Emergency Hotline</div>
-            </div>
-          </a>
-          <a href="/report" class="va-btn-outline" style="padding:15px 24px;font-size:0.95rem;">
-            📋 Report a Case
-          </a>
-        </div>
+<div class="badge">🐾 Animal Rescue Network</div>
 
-        <div class="d-flex flex-wrap gap-3 mt-4">
-          <div class="stat-mini"><span class="live-dot me-2"></span>Live system</div>
-          <div class="stat-mini">🏥 <span id="statShelters">—</span> shelters</div>
-          <div class="stat-mini">🤝 24 × 7 response</div>
-        </div>
-      </div>
+<h1 class="hero-title">
+Every second counts.<br>
+<span class="gradient">Save an animal now.</span>
+</h1>
 
-      <!-- RIGHT visual -->
-      <div class="col-lg-6 animate-up delay-3">
+<h3 class="hero-sub">
+See an animal in distress?
+</h3>
 
-        <!-- Emergency call card -->
-        <div class="va-card p-4 mb-3" style="border:none;background:linear-gradient(145deg,#fff 0%,#fff8f8 100%);box-shadow:var(--shadow-lg);border-top:3px solid #dc2626;">
-          <div class="d-flex align-items-center gap-3 mb-4">
-            <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#dc2626,#ef4444);display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 14px rgba(220,38,38,0.35);">📞</div>
-            <div>
-              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;">Emergency Call System</div>
-              <div class="va-soft" style="font-size:0.8rem;">One tap • Direct connection • 24×7</div>
-            </div>
-            <span class="tech-pill red ms-auto">● Live</span>
-          </div>
 
-          <div style="background:#fff9f9;border-radius:14px;padding:16px;margin-bottom:14px;border:1px solid rgba(220,38,38,0.12);">
-            <div style="font-size:0.74rem;font-weight:700;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Emergency Response Flow</div>
-            <div class="d-flex gap-2 align-items-center">
-              <div style="flex:1;background:rgba(220,38,38,0.08);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(220,38,38,0.14);">
-                <div style="font-size:1.3rem;">📞</div>
-                <div style="font-size:0.7rem;font-weight:700;color:#991b1b;margin-top:4px;">Call</div>
-              </div>
-              <div style="color:var(--border2);font-weight:700;">→</div>
-              <div style="flex:1;background:rgba(245,158,11,0.08);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(245,158,11,0.18);">
-                <div style="font-size:1.3rem;">📍</div>
-                <div style="font-size:0.7rem;font-weight:700;color:#78350f;margin-top:4px;">GPS</div>
-              </div>
-              <div style="color:var(--border2);font-weight:700;">→</div>
-              <div style="flex:1;background:rgba(13,148,136,0.08);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(13,148,136,0.15);">
-                <div style="font-size:1.3rem;">🏥</div>
-                <div style="font-size:0.7rem;font-weight:700;color:var(--teal);margin-top:4px;">NGO</div>
-              </div>
-              <div style="color:var(--border2);font-weight:700;">→</div>
-              <div style="flex:1;background:rgba(22,163,74,0.08);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(22,163,74,0.15);">
-                <div style="font-size:1.3rem;">🚑</div>
-                <div style="font-size:0.7rem;font-weight:700;color:#14532d;margin-top:4px;">Rescue</div>
-              </div>
-            </div>
-            <div style="margin-top:14px;">
-              <div style="display:flex;justify-content:space-between;font-size:0.74rem;color:var(--muted);margin-bottom:5px;">
-                <span>Avg. response time</span><span style="font-weight:700;color:var(--teal);">&lt; 20 min</span>
-              </div>
-              <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
-                <div style="height:100%;width:72%;background:var(--grad-teal);border-radius:3px;animation:growBar 1.8s ease 0.5s both;"></div>
-              </div>
-            </div>
-          </div>
+<!-- EMERGENCY BUTTON -->
 
-          <div class="d-flex gap-2">
-            <div style="flex:1;text-align:center;padding:10px;background:var(--card2);border-radius:10px;border:1px solid var(--border);">
-              <div style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:900;color:#dc2626;">24/7</div>
-              <div style="font-size:0.72rem;color:var(--muted);font-weight:600;">Hotline</div>
-            </div>
-            <div style="flex:1;text-align:center;padding:10px;background:var(--card2);border-radius:10px;border:1px solid var(--border);">
-              <div style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:900;color:var(--amber);">&lt;20m</div>
-              <div style="font-size:0.72rem;color:var(--muted);font-weight:600;">Response</div>
-            </div>
-            <div style="flex:1;text-align:center;padding:10px;background:var(--card2);border-radius:10px;border:1px solid var(--border);">
-              <div style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:900;color:var(--teal);">GPS</div>
-              <div style="font-size:0.72rem;color:var(--muted);font-weight:600;">Precision</div>
-            </div>
-          </div>
-        </div>
+<div class="emergency-wrapper">
 
-        <!-- Voice + GPS row -->
-        <div class="row g-3">
-          <div class="col-6">
-            <div class="va-card p-3" style="border:none;box-shadow:var(--shadow-md);">
-              <div style="font-size:1.8rem;margin-bottom:8px;">📍</div>
-              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;margin-bottom:4px;">GPS Routing</div>
-              <div class="va-soft" style="font-size:0.78rem;line-height:1.5;">Precision coordinates sent to NGO. Live Google Maps turn-by-turn for rescuers.</div>
-              <div style="margin-top:10px;display:flex;align-items:center;gap:6px;">
-                <div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
-                  <div style="height:100%;width:80%;background:var(--grad-teal);border-radius:2px;animation:growBar 2s ease 0.8s both;"></div>
-                </div>
-                <span style="font-size:0.7rem;font-weight:700;color:var(--teal);">±3m</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="va-card p-3" style="border:none;box-shadow:var(--shadow-md);">
-              <div style="font-size:1.8rem;margin-bottom:8px;">📋</div>
-              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;margin-bottom:4px;">Instant Report</div>
-              <div class="va-soft" style="font-size:0.78rem;line-height:1.5;">Submit while on call. Appears on rescue dashboard immediately with your contact info.</div>
-              <div style="display:flex;gap:3px;align-items:center;margin-top:10px;height:18px;">
-                <div style="width:3px;background:var(--amber);border-radius:2px;animation:waveM 1s ease-in-out infinite;"></div>
-                <div style="width:3px;background:var(--amber);border-radius:2px;animation:waveM 1s ease-in-out 0.12s infinite;"></div>
-                <div style="width:3px;background:var(--amber);border-radius:2px;animation:waveM 1s ease-in-out 0.24s infinite;"></div>
-                <div style="width:3px;background:var(--amber);border-radius:2px;animation:waveM 1s ease-in-out 0.36s infinite;"></div>
-                <div style="width:3px;background:var(--amber);border-radius:2px;animation:waveM 1s ease-in-out 0.48s infinite;"></div>
-                <span class="tech-pill amber ms-2" style="font-size:0.65rem;padding:3px 8px;">LIVE</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<a href="/emergency" class="btn-emergency pulse">
 
-    </div>
-  </div>
+<i class="fa-solid fa-phone-volume"></i>
+Emergency Call
+
+</a>
+
+</div>
+
+
+<!-- OTHER BUTTONS -->
+
+<div class="secondary-buttons">
+
+<a href="/report" class="btn-report">
+
+<i class="fa-solid fa-file-circle-plus"></i>
+Regular Report
+
+</a>
+
+<a href="/shelter" class="btn-shelter">
+
+<i class="fa-solid fa-house-medical"></i>
+Find Shelter
+
+</a>
+
+</div>
+
+
+
+<div class="tech-pill-container">
+
+<span class="tech-pill">
+<i class="fa-solid fa-location-crosshairs"></i>
+Precision GPS
+</span>
+
+<span class="tech-pill">
+<i class="fa-solid fa-map-location-dot"></i>
+Live Map Routing
+</span>
+
+<span class="tech-pill">
+<i class="fa-solid fa-chart-line"></i>
+Live Dashboard
+</span>
+
+</div>
+
+</div>
+
+
+
+<div class="hero-right">
+
+<div class="rescue-card">
+
+<div class="card-icon">
+<i class="fa-solid fa-paw"></i>
+</div>
+
+<h2>Animal Rescue Platform</h2>
+
+<p>
+Report injured animals and instantly connect with nearby rescue NGOs.
+VipherAid helps volunteers save lives faster using smart rescue technology.
+</p>
+
+<div class="card-stats">
+
+<div class="stat">
+<h3>24/7</h3>
+<span>Emergency Support</span>
+</div>
+
+<div class="stat">
+<h3>Fast</h3>
+<span>Response</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<!-- ══ HOW IT WORKS ══ -->
-<section style="padding:60px 0;background:linear-gradient(180deg,transparent,rgba(13,148,136,0.04),transparent);">
-  <div class="container">
-    <div class="text-center mb-5 animate-up">
-      <div class="section-label" style="justify-content:center;">Process</div>
-      <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;letter-spacing:-0.03em;">How VipherAid works</h2>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-4 animate-up delay-1">
-        <div class="step-card">
-          <div class="step-num">01</div>
-          <div class="step-icon" style="background:linear-gradient(135deg,#fee2e2,#fecaca);">📞</div>
-          <h3 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;margin-bottom:10px;">Call Emergency</h3>
-          <p class="va-soft" style="font-size:0.92rem;line-height:1.65;margin:0;">Tap the emergency button. Direct call to our response team. GPS location captured automatically as you call.</p>
-          <div class="d-flex gap-2 mt-3"><span class="tech-pill red" style="font-size:0.7rem;">One-Tap Call</span></div>
-        </div>
-      </div>
-      <div class="col-md-4 animate-up delay-2">
-        <div class="step-card" style="border-top-color:var(--teal2);">
-          <div class="step-num">02</div>
-          <div class="step-icon" style="background:linear-gradient(135deg,#ccfbf1,#99f6e4);">🏥</div>
-          <h3 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;margin-bottom:10px;">NGO Accepts</h3>
-          <p class="va-soft" style="font-size:0.92rem;line-height:1.65;margin:0;">Case hits the rescue dashboard instantly. Nearest NGO accepts and gets live GPS directions to the animal.</p>
-          <div class="d-flex gap-2 mt-3"><span class="tech-pill teal" style="font-size:0.7rem;">Live Dashboard</span><span class="tech-pill green" style="font-size:0.7rem;">GPS Maps</span></div>
-        </div>
-      </div>
-      <div class="col-md-4 animate-up delay-3">
-        <div class="step-card" style="border-top-color:var(--green);">
-          <div class="step-num">03</div>
-          <div class="step-icon" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);">✅</div>
-          <h3 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;margin-bottom:10px;">Animal Rescued</h3>
-          <p class="va-soft" style="font-size:0.92rem;line-height:1.65;margin:0;">Status updates live. Reporter contact visible to NGO. Case marked resolved. Animal safe.</p>
-          <div class="d-flex gap-2 mt-3"><span class="tech-pill green" style="font-size:0.7rem;">Real-time Updates</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+<section class="how-section">
+
+<h2 class="section-title">How VipherAid Works</h2>
+
+<div class="steps">
+
+<div class="step">
+
+<div class="step-icon">
+<i class="fa-solid fa-phone"></i>
+</div>
+
+<h3>Emergency Call</h3>
+
+<p>Contact the nearest rescue team instantly.</p>
+
+</div>
+
+<div class="step">
+
+<div class="step-icon">
+<i class="fa-solid fa-location-dot"></i>
+</div>
+
+<h3>Share Location</h3>
+
+<p>GPS allows rescuers to locate the animal quickly.</p>
+
+</div>
+
+<div class="step">
+
+<div class="step-icon">
+<i class="fa-solid fa-truck-medical"></i>
+</div>
+
+<h3>Animal Rescued</h3>
+
+<p>Rescue volunteers reach the spot and help the animal.</p>
+
+</div>
+
+</div>
+
 </section>
 
-<!-- ══ TECH STACK ══ -->
-<section style="padding:60px 0;">
-  <div class="container">
-    <div class="row g-4 align-items-center">
-      <div class="col-lg-5 animate-up">
-        <div class="section-label">Technology</div>
-        <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.7rem,4vw,2.3rem);font-weight:900;letter-spacing:-0.03em;margin-bottom:16px;">Real-time tech built for speed</h2>
-        <p class="va-soft" style="font-size:0.95rem;line-height:1.75;margin-bottom:26px;">Every component is purpose-built for rapid emergency response — from GPS capture to rescue routing.</p>
-        <div class="d-flex flex-wrap gap-2">
-          <span class="tech-pill amber">📞 One-Tap Call</span>
-          <span class="tech-pill teal">🗺️ Geolocation API</span>
-          <span class="tech-pill green">📡 Real-time DB</span>
-          <span class="tech-pill red">🚨 Emergency Routing</span>
-          <span class="tech-pill">📊 Haversine Distance</span>
-          <span class="tech-pill teal">📱 PWA-ready</span>
-          <span class="tech-pill">🖼️ Canvas Crop</span>
-          <span class="tech-pill green">🏥 Shelter Network</span>
-        </div>
-      </div>
-      <div class="col-lg-7 animate-up delay-2">
-        <div class="row g-3">
-          <div class="col-sm-6">
-            <div class="va-card p-4" style="border:none;box-shadow:var(--shadow-md);height:100%;border-top:3px solid #dc2626;">
-              <div style="font-size:2rem;margin-bottom:10px;">📞</div>
-              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;margin-bottom:6px;">Emergency Call</div>
-              <p class="va-soft" style="font-size:0.82rem;line-height:1.6;margin:0;">One-tap phone call to response team with auto-GPS capture. File a report simultaneously while on call.</p>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="va-card p-4" style="border:none;box-shadow:var(--shadow-md);height:100%;border-top:3px solid var(--amber);">
-              <div style="font-size:2rem;margin-bottom:10px;">📍</div>
-              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;margin-bottom:6px;">Precision GPS</div>
-              <p class="va-soft" style="font-size:0.82rem;line-height:1.6;margin:0;">High-accuracy geolocation API. Coordinates auto-embedded in reports. Haversine-sorted nearest shelters.</p>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="va-card p-4" style="border:none;box-shadow:var(--shadow-md);height:100%;border-top:3px solid var(--teal2);">
-              <div style="font-size:2rem;margin-bottom:10px;">🗺️</div>
-              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;margin-bottom:6px;">Live Map Routing</div>
-              <p class="va-soft" style="font-size:0.82rem;line-height:1.6;margin:0;">Rescuers get live turn-by-turn Google Maps directions from their location to the animal. Zero friction.</p>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="va-card p-4" style="border:none;box-shadow:var(--shadow-md);height:100%;border-top:3px solid var(--green);">
-              <div style="font-size:2rem;margin-bottom:10px;">📊</div>
-              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;margin-bottom:6px;">Live Dashboard</div>
-              <p class="va-soft" style="font-size:0.82rem;line-height:1.6;margin:0;">Auto-refresh every 30s. Reporter contact visible. Filter by urgency, status. One-click assignment.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ══ CTA BAND ══ -->
-<section style="padding:56px 0;">
-  <div class="container">
-    <div class="va-card p-5 text-center" style="background:linear-gradient(135deg,#fffdf7 0%,#f0fefb 50%,#fffae6 100%);border:none;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;">
-      <div style="position:absolute;top:-40px;left:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,0.16),transparent 70%);pointer-events:none;"></div>
-      <div style="position:absolute;bottom:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(13,148,136,0.12),transparent 70%);pointer-events:none;"></div>
-      <div style="position:relative;">
-        <div style="font-size:3.5rem;margin-bottom:16px;animation:float 3s ease-in-out infinite;display:inline-block;">🐾</div>
-        <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;letter-spacing:-0.03em;margin-bottom:12px;">See an animal in distress?</h2>
-        <p class="va-soft" style="font-size:1.05rem;max-width:500px;margin:0 auto 28px;">Don't wait. Your call reaches the nearest NGO in seconds. Every second saved is a life saved.</p>
-        <div class="d-flex flex-wrap gap-3 justify-content-center">
-          <a href="/emergency" class="va-btn-emergency" style="font-size:1rem;padding:14px 28px;text-decoration:none;border-radius:14px;animation:none;">
-            📞 Emergency Call
-          </a>
-          <a href="/report" class="va-btn" style="text-decoration:none;padding:14px 28px;">
-            📋 Regular Report
-          </a>
-          <a href="/shelter" class="va-btn-outline" style="padding:14px 28px;">
-            🏥 Find Shelters
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-{% endblock %}
-
-{% block scripts %}
-<script>
-async function loadStats() {
-  try {
-    const res = await fetch('/api/shelters');
-    const s = await res.json();
-    document.getElementById('statShelters').textContent = s.length;
-  } catch(e) {
-    document.getElementById('statShelters').textContent = '0';
-  }
-}
-loadStats();
-</script>
 <style>
-@keyframes waveM  { 0%,100%{height:5px;} 50%{height:18px;} }
-@keyframes growBar{ from{width:0;} }
-@keyframes float  { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+
+.hero{
+padding:110px 20px;
+background:linear-gradient(180deg,#fff7ed,#ffffff,#fff7ed);
+}
+
+.hero-container{
+display:flex;
+align-items:center;
+justify-content:space-between;
+max-width:1200px;
+margin:auto;
+gap:60px;
+flex-wrap:wrap;
+}
+
+.hero-left{
+flex:1;
+min-width:320px;
+}
+
+.hero-right{
+flex:1;
+display:flex;
+justify-content:center;
+}
+
+.badge{
+background:#ffedd5;
+color:#c2410c;
+padding:6px 14px;
+border-radius:20px;
+font-size:14px;
+display:inline-block;
+margin-bottom:15px;
+}
+
+.hero-title{
+font-size:52px;
+font-weight:800;
+line-height:1.2;
+}
+
+.gradient{
+background:linear-gradient(90deg,#ef4444,#f59e0b);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero-sub{
+font-size:24px;
+margin:20px 0 30px 0;
+color:#374151;
+}
+
+
+
+/* BIG EMERGENCY BUTTON */
+
+.emergency-wrapper{
+margin-bottom:20px;
+}
+
+.btn-emergency{
+display:inline-flex;
+align-items:center;
+gap:12px;
+background:linear-gradient(90deg,#ef4444,#dc2626);
+color:white;
+padding:24px 55px;
+border-radius:16px;
+text-decoration:none;
+font-weight:800;
+font-size:24px;
+box-shadow:0 15px 45px rgba(220,38,38,0.45);
+transition:0.3s;
+}
+
+.btn-emergency:hover{
+transform:scale(1.08);
+box-shadow:0 20px 60px rgba(220,38,38,0.55);
+}
+
+
+/* PULSE ANIMATION */
+
+.pulse{
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{box-shadow:0 0 0 0 rgba(239,68,68,0.6);}
+70%{box-shadow:0 0 0 20px rgba(239,68,68,0);}
+100%{box-shadow:0 0 0 0 rgba(239,68,68,0);}
+}
+
+
+
+/* SECONDARY BUTTONS */
+
+.secondary-buttons{
+display:flex;
+gap:12px;
+margin-bottom:30px;
+}
+
+.btn-report{
+display:flex;
+align-items:center;
+gap:8px;
+background:#2563eb;
+color:white;
+padding:14px 22px;
+border-radius:10px;
+text-decoration:none;
+font-weight:600;
+}
+
+.btn-shelter{
+display:flex;
+align-items:center;
+gap:8px;
+background:#16a34a;
+color:white;
+padding:14px 22px;
+border-radius:10px;
+text-decoration:none;
+font-weight:600;
+}
+
+
+
+/* TECH PILLS */
+
+.tech-pill-container{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.tech-pill{
+background:#f1f5f9;
+padding:8px 14px;
+border-radius:20px;
+font-size:14px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+
+
+/* HERO CARD */
+
+.rescue-card{
+background:white;
+padding:40px;
+border-radius:18px;
+box-shadow:0 15px 45px rgba(0,0,0,0.08);
+max-width:360px;
+text-align:center;
+}
+
+.card-icon{
+font-size:42px;
+margin-bottom:10px;
+color:#f97316;
+}
+
+.card-stats{
+display:flex;
+justify-content:space-around;
+margin-top:20px;
+}
+
+.stat h3{
+margin:0;
+font-size:22px;
+}
+
+.stat span{
+font-size:13px;
+color:#6b7280;
+}
+
+
+
+/* HOW SECTION */
+
+.how-section{
+padding:80px 20px;
+text-align:center;
+background:#fff7ed;
+}
+
+.section-title{
+font-size:36px;
+margin-bottom:40px;
+}
+
+.steps{
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.step{
+max-width:250px;
+}
+
+.step-icon{
+font-size:40px;
+margin-bottom:10px;
+color:#f97316;
+}
+
 </style>
+
 {% endblock %}
