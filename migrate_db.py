@@ -12,7 +12,7 @@ DB_PATH = "instance/viperaid.db"
 def migrate_database():
     """Add photo_url column to reports table if it doesn't exist"""
     
-    # Check if database exists
+    
     if not os.path.exists(DB_PATH):
         print("✓ No existing database found - will be created on first run")
         return
@@ -21,7 +21,7 @@ def migrate_database():
     cursor = conn.cursor()
     
     try:
-        # Check if photo_url column exists
+        
         cursor.execute("PRAGMA table_info(report)")
         columns = [row[1] for row in cursor.fetchall()]
         
@@ -33,7 +33,7 @@ def migrate_database():
             conn.commit()
             print("✓ photo_url column added successfully")
         
-        # Show current reports
+        
         cursor.execute("SELECT id, animal_type, urgency, created_at FROM report ORDER BY created_at DESC LIMIT 5")
         reports = cursor.fetchall()
         

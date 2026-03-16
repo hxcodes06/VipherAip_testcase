@@ -1,13 +1,18 @@
 from flask import Flask, render_template, request, redirect, session, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from ultralytics import YOLO
 from PIL import Image
-import os, json, base64, math, io
+import os, base64, io
 
 app = Flask(__name__)
 app.secret_key = "vipheraid_expo_final_2026_madurai"
+
+
+socketio = SocketIO(app)
+
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///viperaid.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -18,17 +23,18 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 db = SQLAlchemy(app)
 
-# Load AI model
+
 model = YOLO("yolov8n.pt")
 
-# Animal classes allowed
+
 ANIMAL_CLASSES = [
     "bird","cat","dog","horse","sheep",
     "cow","elephant","bear","zebra","giraffe"
 ]
 
 
-# ───────────────── DATABASE MODELS ─────────────────
+
+
 class Report(db.Model):
     id = db.Column(db.String(20), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -66,18 +72,22 @@ with app.app_context():
     db.create_all()
 
 
-# ───────────────── PAGES ─────────────────
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/report")
 def report():
     return render_template("report.html")
 
+
 @app.route("/emergency")
 def emergency():
     return render_template("emergency.html")
+
 
 @app.route("/rescue")
 def rescue():
@@ -85,28 +95,36 @@ def rescue():
         return redirect("/rescue-login")
     return render_template("rescue.html")
 
+
 @app.route("/donate")
 def donate():
     return render_template("donate.html")
+
 
 @app.route("/shelter")
 def shelter_page():
     return render_template("shelter.html")
 
 
-# ───────────────── AUTH ─────────────────
+
+
 @app.route("/rescue-login", methods=["GET", "POST"])
 def rescue_login():
+
     if request.method == "POST":
+
         org = request.form.get("org","").strip()
         code = request.form.get("code","").strip()
 
         if code == "VIPERNGO":
+
             session["rescuer"] = True
             session["org"] = org or "NGO"
+
             return redirect("/rescue")
 
         flash("Invalid NGO code. Try: VIPERNGO")
+
         return redirect("/rescue-login")
 
     return render_template("rescue-login.html")
@@ -114,11 +132,14 @@ def rescue_login():
 
 @app.route("/logout")
 def logout():
+
     session.clear()
+
     return redirect("/")
 
 
-# ───────────────── REPORT APIs ─────────────────
+
+
 @app.route("/api/report", methods=["POST"])
 def api_create_report():
 
@@ -132,8 +153,13 @@ def api_create_report():
     photo_url = None
 
     if photo and photo.filename:
-        filename = secure_filename(f"{int(datetime.now().timestamp())}_{photo.filename}")
+
+        filename = secure_filename(
+            f"{int(datetime.now().timestamp())}_{photo.filename}"
+        )
+
         photo.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
         photo_url = f"/static/uploads/{filename}"
 
     is_emerg = str(data.get("isEmergency","")).lower() in ("true","1","yes")
@@ -156,7 +182,19 @@ def api_create_report():
     db.session.add(r)
     db.session.commit()
 
-    return jsonify({"success": True, "id": r.id, "photoUrl": photo_url})
+
+    socketio.emit(
+        "new_report",
+        {"message": "New animal rescue report submitted"}
+    )
+
+    return jsonify({
+        "success": True,
+        "id": r.id,
+        "photoUrl": photo_url
+    })
+
+
 
 
 @app.route("/api/reports")
@@ -184,6 +222,8 @@ def api_reports():
     } for r in reports])
 
 
+
+
 @app.route("/api/report/<report_id>", methods=["POST"])
 def api_update_report(report_id):
 
@@ -205,6 +245,8 @@ def api_update_report(report_id):
     return jsonify({"success": True})
 
 
+
+
 @app.route("/api/report/<report_id>", methods=["DELETE"])
 def api_delete_report(report_id):
 
@@ -219,18 +261,22 @@ def api_delete_report(report_id):
     return jsonify({"success": True})
 
 
-# ───────────────── AI ANIMAL DETECTION ─────────────────
+
+
 @app.route("/api/detect-animal", methods=["POST"])
 def api_detect_animal():
 
     data = request.json or {}
+
     image_b64 = data.get("image","")
 
     if not image_b64:
         return jsonify({"isAnimal": False})
 
     try:
+
         image_bytes = base64.b64decode(image_b64)
+
         image = Image.open(io.BytesIO(image_bytes))
 
         results = model(image)
@@ -239,6 +285,7 @@ def api_detect_animal():
             for box in r.boxes:
 
                 cls = int(box.cls[0])
+
                 label = model.names[cls]
 
                 if label in ANIMAL_CLASSES:
@@ -263,24 +310,25 @@ def api_detect_animal():
             "detectedAs": "No animal detected"
         })
 
-    except Exception as e:
+    except:
         return jsonify({
             "isAnimal": False,
             "detectedAs": "AI error"
         })
 
 
-@app.route("/favicon.ico")
-def favicon():
-    return "",204
 
 
 @app.route("/api/public-stats")
 def api_public_stats():
 
     total = Report.query.count()
+
     resolved = Report.query.filter_by(status="Completed").count()
-    active = Report.query.filter(Report.status != "Completed").count()
+
+    active = Report.query.filter(
+        Report.status != "Completed"
+    ).count()
 
     return jsonify({
         "total": total,
@@ -289,5 +337,13 @@ def api_public_stats():
     })
 
 
+
+
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000) 
+
+    socketio.run(
+        app,
+        debug=True,
+        host="0.0.0.0",
+        port=5000
+    )
