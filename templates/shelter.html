@@ -5,7 +5,7 @@
 <section class="py-5">
   <div class="container py-3">
 
-    <!-- HEADER -->
+
     <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
       <div>
         <h1 class="fw-bold mb-1">🏥 Animal Shelters & NGOs</h1>
@@ -15,7 +15,7 @@
       <button class="va-btn" id="btnShowForm"><i class="fa-solid fa-plus"></i> Register Your Shelter</button>
     </div>
 
-    <!-- REGISTER FORM (hidden by default) -->
+
     <div class="va-card p-4 p-lg-5 mb-5" id="registerForm" style="display:none; border: 2px solid var(--brand);">
       <h2 class="fw-bold mb-4" style="color: var(--brand);">📋 Register a Shelter / NGO</h2>
       <form id="shelterForm">
@@ -113,7 +113,7 @@
       </form>
     </div>
 
-    <!-- SEARCH / FILTER -->
+
     <div class="va-card p-3 mb-4">
       <div class="row g-2">
         <div class="col-md-5">
@@ -137,7 +137,7 @@
       </div>
     </div>
 
-    <!-- SHELTERS LIST -->
+ 
     <div id="emptyBox" class="va-card p-5 text-center" style="display:none;">
       <div style="font-size:4rem;margin-bottom:20px;">🏥</div>
       <h3 class="fw-bold mb-2">No shelters registered yet</h3>
@@ -175,7 +175,7 @@
 <script>
   let allShelters = [];
 
-  // Toggle form
+
   document.getElementById('btnShowForm').addEventListener('click', function () {
     const f = document.getElementById('registerForm');
     f.style.display = f.style.display === 'none' ? 'block' : 'none';
@@ -188,7 +188,7 @@
     document.getElementById('btnSubmitForm').innerHTML = '<i class="fa-solid fa-paper-plane"></i> Register Shelter';
   });
 
-  // GPS for shelter
+
   document.getElementById('btnGeoShelter').addEventListener('click', function () {
     if (!navigator.geolocation) return alert('Geolocation not supported.');
     navigator.geolocation.getCurrentPosition(
@@ -197,7 +197,7 @@
     );
   });
 
-  // Submit form
+
   document.getElementById('shelterForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const animals = [...document.querySelectorAll('input[name="animals"]:checked')].map(c => c.value);
@@ -242,12 +242,12 @@
     }
   });
 
-  // Edit shelter
+
   function editShelter(id) {
     const shelter = allShelters.find(s => s.id == id);
     if (!shelter) return;
 
-    // Populate form
+   
     document.getElementById('sId').value = shelter.id;
     document.getElementById('sName').value = shelter.name || '';
     document.getElementById('sType').value = shelter.shelter_type || '';
@@ -261,7 +261,7 @@
     document.getElementById('sHours').value = shelter.hours || '';
     document.getElementById('sWebsite').value = shelter.website || '';
 
-    // Animals checkboxes
+    
     document.querySelectorAll('input[name="animals"]').forEach(cb => cb.checked = false);
     if (shelter.animals_helped) {
       const animals = shelter.animals_helped.split(', ');
@@ -271,13 +271,13 @@
       });
     }
 
-    // Show form and change button text
+
     document.getElementById('registerForm').style.display = 'block';
     document.getElementById('btnSubmitForm').innerHTML = '<i class="fa-solid fa-save"></i> Update Shelter';
     document.getElementById('registerForm').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Delete shelter
+
   async function deleteShelter(id) {
     if (!confirm('Are you sure you want to delete this shelter? This action cannot be undone.')) return;
 
@@ -295,7 +295,7 @@
     }
   }
 
-  // Load shelters
+
   async function loadShelters() {
     try {
       const res = await fetch('/api/shelters');
