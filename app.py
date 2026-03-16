@@ -167,6 +167,58 @@ def api_reports():
         Report.created_at.desc()
     ).limit(100).all()
 
+    # ───────────────── SHELTER APIs ─────────────────
+
+@app.route("/api/shelter", methods=["POST"])
+def api_create_shelter():
+
+    data = request.json or {}
+
+    s = Shelter(
+        name=data.get("name"),
+        shelter_type=data.get("shelter_type"),
+        address=data.get("address"),
+        city=data.get("city"),
+        phone=data.get("phone"),
+        email=data.get("email"),
+        geo=data.get("geo"),
+        capacity=data.get("capacity"),
+        animals_helped=data.get("animals_helped"),
+        description=data.get("description"),
+        hours=data.get("hours"),
+        website=data.get("website")
+    )
+
+    db.session.add(s)
+    db.session.commit()
+
+    return jsonify({
+        "success": True,
+        "id": s.id
+    })
+
+
+@app.route("/api/shelters")
+def api_get_shelters():
+
+    shelters = Shelter.query.order_by(Shelter.created_at.desc()).all()
+
+    return jsonify([{
+        "id": s.id,
+        "name": s.name,
+        "shelter_type": s.shelter_type,
+        "address": s.address,
+        "city": s.city,
+        "phone": s.phone,
+        "email": s.email,
+        "geo": s.geo,
+        "capacity": s.capacity,
+        "animals_helped": s.animals_helped,
+        "description": s.description,
+        "hours": s.hours,
+        "website": s.website
+    } for s in shelters])
+
     return jsonify([{
         "id": r.id,
         "animalType": r.animal_type,
