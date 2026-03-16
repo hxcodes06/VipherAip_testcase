@@ -5,7 +5,7 @@
 <section class="py-5">
   <div class="container py-2">
 
-    <!-- Header -->
+
     <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4 animate-up">
       <div>
         <div class="section-label">NGO Operations Centre</div>
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <!-- Stats row -->
+
     <div class="row g-3 mb-4 animate-up delay-1">
       <div class="col-6 col-md-3">
         <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;border-top:3px solid var(--amber);box-shadow:var(--shadow-sm);">
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <!-- Filters -->
+
     <div class="va-card p-3 mb-4 animate-up delay-2" style="border:none;box-shadow:var(--shadow-sm);">
       <div class="row g-2 align-items-end">
         <div class="col-md-3 col-6">
@@ -91,18 +91,18 @@
       </div>
     </div>
 
-    <!-- Empty state -->
+
     <div id="emptyBox" class="va-card p-5 text-center animate-in" style="display:none;border:none;box-shadow:var(--shadow-sm);">
       <div style="font-size:3rem;margin-bottom:12px;">📭</div>
       <h4 style="font-family:'Syne',sans-serif;font-weight:800;margin-bottom:6px;">No reports yet</h4>
       <p class="va-soft mb-0">When citizens submit reports or make emergency calls, they appear here instantly.</p>
     </div>
 
-    <!-- Reports grid -->
+
     <div id="list" class="row g-3"></div>
 
     {% if not session.rescuer %}
-    <!-- Login prompt banner -->
+
     <div class="va-card p-4 mt-4 text-center" style="border:none;box-shadow:var(--shadow-md);background:linear-gradient(145deg,#fffdf7,#fff);border-top:3px solid var(--amber);">
       <div style="font-size:2rem;margin-bottom:10px;">🔐</div>
       <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:6px;">NGO Login for Full Access</div>
@@ -166,7 +166,7 @@ function render() {
   var u = document.getElementById('filterUrgency').value;
   var src = document.getElementById('filterSource').value;
 
-  /* Stats */
+
   document.getElementById('statTotal').textContent    = allReports.length;
   document.getElementById('statEmerg').textContent    = allReports.filter(function(r){return r.isEmergency;}).length;
   document.getElementById('statCritical').textContent = allReports.filter(function(r){return r.urgency==='Critical';}).length;
@@ -179,7 +179,7 @@ function render() {
     return okS && okU && okSrc;
   });
 
-  /* Emergency reports always bubble to top within filter */
+
   filtered.sort(function(a,b) {
     if (a.isEmergency && !b.isEmergency) return -1;
     if (!a.isEmergency && b.isEmergency) return 1;
@@ -290,7 +290,7 @@ function render() {
     document.getElementById('list').appendChild(col);
   });
 
-  /* Event listeners — only if logged in */
+
   if (isLoggedIn) {
     document.querySelectorAll('.status-select').forEach(function(sel) {
       sel.addEventListener('change', async function(e) {
