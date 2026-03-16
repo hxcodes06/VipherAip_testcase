@@ -167,6 +167,22 @@ def api_reports():
         Report.created_at.desc()
     ).limit(100).all()
 
+    return jsonify([{
+        "id": r.id,
+        "animalType": r.animal_type,
+        "urgency": r.urgency,
+        "locationText": r.location_text,
+        "geo": r.geo,
+        "description": r.description,
+        "status": r.status,
+        "assignedTo": r.assigned_to,
+        "photoUrl": r.photo_url,
+        "isEmergency": r.is_emergency,
+        "reporterName": r.reporter_name,
+        "reporterPhone": r.reporter_phone,
+        "createdAt": r.created_at.isoformat()
+    } for r in reports])
+
     # ───────────────── SHELTER APIs ─────────────────
 
 @app.route("/api/shelter", methods=["POST"])
