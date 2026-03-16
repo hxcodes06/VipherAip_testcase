@@ -219,6 +219,37 @@ def api_get_shelters():
         "website": s.website
     } for s in shelters])
 
+
+@app.route("/api/shelter/<int:shelter_id>", methods=["PUT"])
+def api_update_shelter(shelter_id):
+    shelter = Shelter.query.get_or_404(shelter_id)
+    
+    data = request.json
+    shelter.name = data.get("name", shelter.name)
+    shelter.shelter_type = data.get("shelter_type", shelter.shelter_type)
+    shelter.address = data.get("address", shelter.address)
+    shelter.city = data.get("city", shelter.city)
+    shelter.phone = data.get("phone", shelter.phone)
+    shelter.email = data.get("email", shelter.email)
+    shelter.geo = data.get("geo", shelter.geo)
+    shelter.capacity = data.get("capacity", shelter.capacity)
+    shelter.animals_helped = data.get("animals_helped", shelter.animals_helped)
+    shelter.description = data.get("description", shelter.description)
+    shelter.hours = data.get("hours", shelter.hours)
+    shelter.website = data.get("website", shelter.website)
+    
+    db.session.commit()
+    return jsonify({"success": True, "id": shelter.id})
+
+
+@app.route("/api/shelter/<int:shelter_id>", methods=["DELETE"])
+def api_delete_shelter(shelter_id):
+    shelter = Shelter.query.get_or_404(shelter_id)
+    
+    db.session.delete(shelter)
+    db.session.commit()
+    return jsonify({"success": True})
+
     return jsonify([{
         "id": r.id,
         "animalType": r.animal_type,
