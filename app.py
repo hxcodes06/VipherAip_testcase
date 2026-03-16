@@ -213,6 +213,105 @@ def api_reports():
         "geo": r.geo,
         "description": r.description,
         "status": r.status,
+        "assignedTo": r.assigned_to,
+        "photoUrl": r.photo_url,
+        "isEmergency": r.is_emergency,
+        "reporterName": r.reporter_name,
+        "reporterPhone": r.reporter_phone,
+        "createdAt": r.created_at.isoformat()
+    } for r in reports])
+
+    # ───────────────── SHELTER APIs ─────────────────
+
+@app.route("/api/shelter", methods=["POST"])
+def api_create_shelter():
+
+    data = request.json or {}
+
+    s = Shelter(
+        name=data.get("name"),
+        shelter_type=data.get("shelter_type"),
+        address=data.get("address"),
+        city=data.get("city"),
+        phone=data.get("phone"),
+        email=data.get("email"),
+        geo=data.get("geo"),
+        capacity=data.get("capacity"),
+        animals_helped=data.get("animals_helped"),
+        description=data.get("description"),
+        hours=data.get("hours"),
+        website=data.get("website")
+    )
+
+    db.session.add(s)
+    db.session.commit()
+
+    return jsonify({
+        "success": True,
+        "id": s.id
+    })
+
+
+@app.route("/api/shelters")
+def api_get_shelters():
+
+    shelters = Shelter.query.order_by(Shelter.created_at.desc()).all()
+
+    return jsonify([{
+        "id": s.id,
+        "name": s.name,
+        "shelter_type": s.shelter_type,
+        "address": s.address,
+        "city": s.city,
+        "phone": s.phone,
+        "email": s.email,
+        "geo": s.geo,
+        "capacity": s.capacity,
+        "animals_helped": s.animals_helped,
+        "description": s.description,
+        "hours": s.hours,
+        "website": s.website
+    } for s in shelters])
+
+
+@app.route("/api/shelter/<int:shelter_id>", methods=["PUT"])
+def api_update_shelter(shelter_id):
+    shelter = Shelter.query.get_or_404(shelter_id)
+    
+    data = request.json
+    shelter.name = data.get("name", shelter.name)
+    shelter.shelter_type = data.get("shelter_type", shelter.shelter_type)
+    shelter.address = data.get("address", shelter.address)
+    shelter.city = data.get("city", shelter.city)
+    shelter.phone = data.get("phone", shelter.phone)
+    shelter.email = data.get("email", shelter.email)
+    shelter.geo = data.get("geo", shelter.geo)
+    shelter.capacity = data.get("capacity", shelter.capacity)
+    shelter.animals_helped = data.get("animals_helped", shelter.animals_helped)
+    shelter.description = data.get("description", shelter.description)
+    shelter.hours = data.get("hours", shelter.hours)
+    shelter.website = data.get("website", shelter.website)
+    
+    db.session.commit()
+    return jsonify({"success": True, "id": shelter.id})
+
+
+@app.route("/api/shelter/<int:shelter_id>", methods=["DELETE"])
+def api_delete_shelter(shelter_id):
+    shelter = Shelter.query.get_or_404(shelter_id)
+    
+    db.session.delete(shelter)
+    db.session.commit()
+    return jsonify({"success": True})
+
+    return jsonify([{
+        "id": r.id,
+        "animalType": r.animal_type,
+        "urgency": r.urgency,
+        "locationText": r.location_text,
+        "geo": r.geo,
+        "description": r.description,
+        "status": r.status,
         "createdAt": r.created_at.isoformat(),
         "reporterName": r.reporter_name,
         "reporterPhone": r.reporter_phone,

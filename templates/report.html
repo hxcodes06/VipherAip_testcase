@@ -53,7 +53,7 @@
             <textarea id="description" class="form-control" rows="4" placeholder="Injured? Bleeding? Traffic risk? Behavior?..." required></textarea>
           </div>
 
-          <!-- PHOTO UPLOAD WITH AI DETECTION -->
+        
           <div class="col-12">
             <label class="form-label fw-bold">Photo (optional)</label>
             <div style="background:var(--card2);padding:20px;border-radius:14px;border:2px dashed var(--border);text-align:center;">
@@ -88,7 +88,7 @@
         </div>
       </form>
 
-      <!-- SUCCESS MESSAGE -->
+      
       <div id="successMsg" style="display:none;margin-top:20px;padding:20px;background:rgba(20,184,166,0.1);border-radius:12px;border:2px solid var(--teal);">
         <h3 style="color:var(--teal);font-weight:800;margin-bottom:8px;">✅ Report Submitted!</h3>
         <p class="va-soft mb-2">Your report has been logged. Case ID: <strong id="caseId">-</strong></p>
@@ -107,7 +107,7 @@
 let croppedPhotoBlob = null;
 let photoFile = null;
 
-// GPS
+
 document.getElementById('btnGeo').addEventListener('click', () => {
   if (!navigator.geolocation) return alert('Geolocation not supported.');
   navigator.geolocation.getCurrentPosition(
@@ -116,7 +116,7 @@ document.getElementById('btnGeo').addEventListener('click', () => {
   );
 });
 
-// ====== AI ANIMAL DETECTION ======
+
 async function detectAndCropAnimal(imgElement, originalFile) {
   const statusDiv = document.getElementById('photoStatus');
   statusDiv.style.display = 'block';
@@ -202,7 +202,7 @@ document.getElementById('removePhotoBtn').addEventListener('click', function() {
   this.style.display = 'none';
 });
 
-// FORM SUBMIT
+
 document.getElementById('reportForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
